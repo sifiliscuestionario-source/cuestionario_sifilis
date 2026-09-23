@@ -57,10 +57,9 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    padding-bottom: 70px; /* Space for mobile bottom nav bar */
+    padding-bottom: 70px;
 }
 
-/* App Header (Estilo Google Forms Top Banner) */
 .app-header {
     background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%);
     color: #ffffff;
@@ -116,7 +115,7 @@ body {
     gap: 0.5rem;
 }
 
-/* Buttons Touch Optimized */
+/* Buttons */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -126,7 +125,7 @@ body {
     padding: 0.6rem 1.2rem;
     font-size: 0.9rem;
     font-weight: 600;
-    border-radius: 24px; /* Google Pills style */
+    border-radius: 24px;
     border: 1px solid transparent;
     cursor: pointer;
     transition: var(--transition);
@@ -183,10 +182,9 @@ body {
     font-size: 1rem;
 }
 
-/* Main Layout Wrapper */
 .main-wrapper {
     flex: 1;
-    max-width: 768px; /* Mobile / Tablet optimized width like Google Forms */
+    max-width: 768px;
     width: 100%;
     margin: 0 auto;
     padding: 1.25rem 1rem;
@@ -206,7 +204,7 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Top Banner Google Forms Card */
+/* Google Forms Banner Top Card */
 .gforms-top-card {
     background: #ffffff;
     border-radius: var(--radius-md);
@@ -214,7 +212,6 @@ body {
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--border);
     margin-bottom: 1rem;
-    position: relative;
 }
 
 .gforms-top-card::before {
@@ -225,7 +222,7 @@ body {
 }
 
 .gforms-top-card-content {
-    padding: 1.25rem 1.25rem 1rem;
+    padding: 1.25rem;
 }
 
 .gforms-top-card h2 {
@@ -235,12 +232,7 @@ body {
     margin-bottom: 0.5rem;
 }
 
-.gforms-top-card p {
-    font-size: 0.875rem;
-    color: var(--text-muted);
-}
-
-/* Mobile Stepper / Progress Bar Sticky */
+/* Stepper */
 .stepper-card {
     background: var(--surface);
     border-radius: var(--radius-md);
@@ -257,17 +249,8 @@ body {
     margin-bottom: 0.5rem;
 }
 
-.progress-title {
-    font-weight: 700;
-    font-size: 0.85rem;
-    color: var(--navy);
-}
-
-.progress-pct {
-    font-weight: 700;
-    font-size: 0.85rem;
-    color: var(--primary);
-}
+.progress-title { font-weight: 700; font-size: 0.85rem; color: var(--navy); }
+.progress-pct { font-weight: 700; font-size: 0.85rem; color: var(--primary); }
 
 .progress-bar-track {
     width: 100%;
@@ -287,8 +270,8 @@ body {
 
 .steps-indicator {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.4rem;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.3rem;
     margin-top: 0.75rem;
 }
 
@@ -296,12 +279,12 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.35rem;
-    padding: 0.45rem 0.25rem;
+    gap: 0.25rem;
+    padding: 0.45rem 0.2rem;
     border-radius: 20px;
     background-color: var(--surface-alt);
     color: var(--text-muted);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 600;
     cursor: pointer;
     text-align: center;
@@ -318,7 +301,38 @@ body {
     color: var(--success);
 }
 
-/* Google Forms Question Cards */
+/* Consent Card & Signature Canvas */
+.consent-text-card {
+    background: #f8fafc;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1.15rem;
+    font-size: 0.875rem;
+    color: var(--navy);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.signature-canvas-box {
+    background: #ffffff;
+    border: 2px dashed var(--primary);
+    border-radius: var(--radius-sm);
+    padding: 4px;
+    width: 100%;
+    max-width: 100%;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    touch-action: none;
+}
+
+#signature-pad {
+    width: 100%;
+    height: 160px;
+    background: #ffffff;
+    display: block;
+    cursor: crosshair;
+}
+
+/* Question Cards */
 .question-block {
     background: #ffffff;
     border: 1px solid var(--border);
@@ -327,7 +341,6 @@ body {
     margin-bottom: 1rem;
     box-shadow: var(--shadow-sm);
     transition: var(--transition);
-    position: relative;
 }
 
 .question-block:focus-within, .question-block:hover {
@@ -353,15 +366,13 @@ body {
 .question-label .req-asterisk {
     color: var(--danger);
     margin-left: 0.25rem;
-    font-size: 1.1rem;
 }
 
-/* Touch Input Fields */
 .form-control {
     width: 100%;
     min-height: 48px;
     padding: 0.75rem 1rem;
-    font-size: 1rem; /* 16px prevents iOS Safari zoom */
+    font-size: 1rem;
     font-family: inherit;
     border: 1.5px solid var(--border);
     border-radius: var(--radius-sm);
@@ -376,7 +387,6 @@ body {
     box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.2);
 }
 
-/* Google Forms Option Cards (Touch Friendly Radio & Checkboxes) */
 .options-grid {
     display: flex;
     flex-direction: column;
@@ -397,14 +407,8 @@ body {
     user-select: none;
 }
 
-.option-card:active {
-    transform: scale(0.99);
-}
-
-.option-card:hover {
-    background-color: #f8fafc;
-    border-color: var(--primary);
-}
+.option-card:active { transform: scale(0.99); }
+.option-card:hover { background-color: #f8fafc; border-color: var(--primary); }
 
 .option-card.selected {
     background-color: var(--primary-subtle);
@@ -425,10 +429,8 @@ body {
     font-size: 0.925rem;
     font-weight: 500;
     color: var(--text-main);
-    line-height: 1.3;
 }
 
-/* Likert Touch Scale Buttons */
 .likert-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -458,22 +460,10 @@ body {
     color: white;
 }
 
-.likert-val {
-    font-size: 1.2rem;
-    font-weight: 800;
-}
+.likert-val { font-size: 1.2rem; font-weight: 800; }
+.likert-lbl { font-size: 0.65rem; font-weight: 600; line-height: 1.1; }
+.likert-btn-option.selected .likert-lbl { color: white; }
 
-.likert-lbl {
-    font-size: 0.65rem;
-    font-weight: 600;
-    line-height: 1.1;
-}
-
-.likert-btn-option.selected .likert-lbl {
-    color: white;
-}
-
-/* Sticky Bottom Navigation Bar for Mobile */
 .survey-actions {
     position: fixed;
     bottom: 0;
@@ -513,10 +503,7 @@ body {
     padding: 1rem;
 }
 
-.modal-overlay.open {
-    opacity: 1;
-    visibility: visible;
-}
+.modal-overlay.open { opacity: 1; visibility: visible; }
 
 .modal-card {
     background: white;
@@ -529,9 +516,7 @@ body {
     transition: var(--transition);
 }
 
-.modal-overlay.open .modal-card {
-    transform: scale(1);
-}
+.modal-overlay.open .modal-card { transform: scale(1); }
 
 .modal-header {
     display: flex;
@@ -540,39 +525,14 @@ body {
     margin-bottom: 1rem;
 }
 
-.modal-title {
-    font-size: 1.15rem;
-    font-weight: 800;
-    color: var(--navy);
-}
+.modal-title { font-size: 1.15rem; font-weight: 800; color: var(--navy); }
 
-/* Admin View Styles */
-.admin-header-bar {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
+/* Admin View */
+.admin-header-bar { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; }
+.admin-title-group h2 { font-size: 1.4rem; font-weight: 800; color: var(--navy); }
+.admin-actions-bar { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 
-.admin-title-group h2 {
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: var(--navy);
-}
-
-.admin-actions-bar {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-}
-
-.metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
-}
-
+.metrics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
 .metric-card {
     background: white;
     border-radius: var(--radius-md);
@@ -600,134 +560,28 @@ body {
 .metric-icon-emerald { background: #d1fae5; color: #059669; }
 .metric-icon-amber { background: #fef3c7; color: #d97706; }
 
-.metric-data .val {
-    font-size: 1.35rem;
-    font-weight: 800;
-    color: var(--navy);
-    line-height: 1.1;
-}
+.metric-data .val { font-size: 1.35rem; font-weight: 800; color: var(--navy); line-height: 1.1; }
+.metric-data .lbl { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; }
 
-.metric-data .lbl {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    font-weight: 600;
-}
+.charts-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-bottom: 1.5rem; }
+.chart-card { background: white; border-radius: var(--radius-md); padding: 1.25rem; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+.chart-container { position: relative; height: 250px; width: 100%; }
 
-.charts-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
-    margin-bottom: 1.5rem;
-}
+.table-card { background: white; border-radius: var(--radius-md); padding: 1.25rem; border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin-bottom: 2rem; }
+.table-responsive { overflow-x: auto; max-height: 450px; }
 
-.chart-card {
-    background: white;
-    border-radius: var(--radius-md);
-    padding: 1.25rem;
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-sm);
-}
+.data-table { width: 100%; border-collapse: collapse; font-size: 0.825rem; }
+.data-table th, .data-table td { padding: 0.75rem 0.6rem; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.data-table th { background-color: var(--surface-alt); color: var(--navy); font-weight: 700; position: sticky; top: 0; z-index: 10; }
 
-.chart-container {
-    position: relative;
-    height: 250px;
-    width: 100%;
-}
+.detail-grid { display: flex; flex-direction: column; gap: 0.5rem; max-height: 60vh; overflow-y: auto; }
+.detail-section-title { font-weight: 700; color: var(--primary); border-bottom: 1.5px solid var(--primary-light); padding-bottom: 0.25rem; margin-top: 0.75rem; }
+.detail-item { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 0.25rem 0; border-bottom: 1px dashed var(--border); }
+.detail-item .lbl { font-weight: 600; color: var(--text-muted); }
+.detail-item .val { font-weight: 700; color: var(--navy); }
 
-.table-card {
-    background: white;
-    border-radius: var(--radius-md);
-    padding: 1.25rem;
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-sm);
-    margin-bottom: 2rem;
-}
+.app-footer { text-align: center; padding: 1rem; color: var(--text-muted); font-size: 0.75rem; border-top: 1px solid var(--border); background: white; margin-top: auto; }
 
-.table-responsive {
-    overflow-x: auto;
-    max-height: 450px;
-}
-
-.data-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.825rem;
-}
-
-.data-table th, .data-table td {
-    padding: 0.75rem 0.6rem;
-    border-bottom: 1px solid var(--border);
-    white-space: nowrap;
-}
-
-.data-table th {
-    background-color: var(--surface-alt);
-    color: var(--navy);
-    font-weight: 700;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-.detail-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    max-height: 60vh;
-    overflow-y: auto;
-}
-
-.detail-section-title {
-    font-weight: 700;
-    color: var(--primary);
-    border-bottom: 1.5px solid var(--primary-light);
-    padding-bottom: 0.25rem;
-    margin-top: 0.75rem;
-}
-
-.detail-item {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.85rem;
-    padding: 0.25rem 0;
-    border-bottom: 1px dashed var(--border);
-}
-
-.detail-item .lbl {
-    font-weight: 600;
-    color: var(--text-muted);
-}
-
-.detail-item .val {
-    font-weight: 700;
-    color: var(--navy);
-}
-
-.app-footer {
-    text-align: center;
-    padding: 1rem;
-    color: var(--text-muted);
-    font-size: 0.75rem;
-    border-top: 1px solid var(--border);
-    background: white;
-    margin-top: auto;
-}
-
-/* Matrix Table for B22 */
-.matrix-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 0.5rem;
-    font-size: 0.85rem;
-}
-
-.matrix-table th, .matrix-table td {
-    padding: 0.6rem 0.35rem;
-    border: 1px solid var(--border);
-    text-align: center;
-}
-
-.matrix-table th {
-    background-color: var(--surface-alt);
-    font-weight: 700;
-}
+.matrix-table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; font-size: 0.85rem; }
+.matrix-table th, .matrix-table td { padding: 0.6rem 0.35rem; border: 1px solid var(--border); text-align: center; }
+.matrix-table th { background-color: var(--surface-alt); font-weight: 700; }

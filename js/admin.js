@@ -211,11 +211,11 @@ class AdminModule {
 
         tbody.innerHTML = this.filteredResponses.map((r, i) => {
             const dateStr = r.fecha_registro ? new Date(r.fecha_registro).toLocaleString('es-VE') : 'N/A';
-            const nombre = r.a0_nombre_participante || r.nombre_participante || 'Anónimo';
+            const hasSignature = !!r.firma_consentimiento;
             return `
                 <tr>
                     <td><strong>#${i + 1}</strong></td>
-                    <td><strong>${nombre}</strong></td>
+                    <td><span class="section-tag" style="background: #f0fdf4; color: var(--success);">Anónimo ${r.id ? r.id.substr(0, 6) : i + 1}</span></td>
                     <td>${dateStr}</td>
                     <td>${r.edad || '-'} a</td>
                     <td>${r.sexo || '-'}</td>
@@ -238,10 +238,9 @@ class AdminModule {
     filterTable(searchTerm) {
         const term = searchTerm.toLowerCase();
         this.filteredResponses = this.responses.filter(r => {
-            const nombre = (r.a0_nombre_participante || r.nombre_participante || '').toLowerCase();
             const unidad = (r.unidad_dependencia || '').toLowerCase();
             const origen = (r.estado_origen || '').toLowerCase();
-            return nombre.includes(term) || unidad.includes(term) || origen.includes(term) || (r.edad && r.edad.toString().includes(term));
+            return unidad.includes(term) || origen.includes(term) || (r.edad && r.edad.toString().includes(term));
         });
         this.renderDataTable();
     }
@@ -262,12 +261,19 @@ class AdminModule {
             return val;
         };
 
-        const nombre = r.a0_nombre_participante || r.nombre_participante || 'Anónimo';
+        const signatureHTML = r.firma_consentimiento ? `
+            <div style="margin-top: 0.5rem; text-align: center; background: #f8fafc; padding: 0.5rem; border-radius: 8px; border: 1px dashed #cbd5e1;">
+                <img src="${r.firma_consentimiento}" alt="Firma Digital" style="max-height: 90px; max-width: 100%;" />
+            </div>
+        ` : '<span class="val" style="color: var(--text-muted);">Sin firma registrada</span>';
 
         body.innerHTML = `
             <div class="detail-grid">
-                <div class="detail-section-title">A. Datos Sociodemográficos & Identificación</div>
-                <div class="detail-item"><span class="lbl">Nombre Participante:</span><span class="val" style="color: var(--primary);">${nombre}</span></div>
+                <div class="detail-section-title">Consentimiento Informado & Firma</div>
+                <div class="detail-item"><span class="lbl">Aceptó Consentimiento:</span><span class="val" style="color: var(--success);"><i class="fas fa-check-circle"></i> SÍ</span></div>
+                <div class="detail-item" style="flex-direction: column; align-items: flex-start;"><span class="lbl">Firma Digital del Soldado:</span>${signatureHTML}</div>
+
+                <div class="detail-section-title">A. Datos Sociodemográficos (Anónimo)</div>
                 <div class="detail-item"><span class="lbl">Edad:</span><span class="val">${r.edad} años</span></div>
                 <div class="detail-item"><span class="lbl">Estado de Origen:</span><span class="val">${r.estado_origen || '-'}</span></div>
                 <div class="detail-item"><span class="lbl">Sexo:</span><span class="val">${r.sexo} ${r.sexo_otro ? `(${r.sexo_otro})` : ''}</span></div>
@@ -284,7 +290,6 @@ class AdminModule {
                 <div class="detail-item"><span class="lbl">Nombre Microorganismo:</span><span class="val">${r.b6_nombre_microorganismo} ${r.b6_como_se_llama ? `(${r.b6_como_se_llama})` : ''}</span></div>
                 <div class="detail-item"><span class="lbl">Síntomas Reconocidos:</span><span class="val">${formatArr(r.b7_sintomas_sifilis)}</span></div>
                 <div class="detail-item"><span class="lbl">Tratamientos:</span><span class="val">${formatArr(r.b8_tratamiento_sifilis)}</span></div>
-                <div class="detail-item"><span class="lbl">Factores de Riesgo:</span><span class="val">${formatArr(r.b9_factores_riesgo)}</span></div>
 
                 <div class="detail-section-title">C. Actitudes (Escala 1 al 5)</div>
                 <div class="detail-item"><span class="lbl">Se preocuparía si tuviera:</span><span class="val">${r.c1_preocuparia_sifilis || '-'} / 5</span></div>
@@ -352,7 +357,9 @@ class AdminModule {
 
         const dataToExport = this.responses.map((r, index) => ({
             'N°': index + 1,
-            'Nombre Participante': r.a0_nombre_participante || r.nombre_participante || 'Anónimo',
+            'ID Registro': r.id,
+            'Consentimiento Aceptado': 'SÍ',
+            'Tiene Firma Digital': r.firma_consentimiento ? 'SÍ' : 'NO',
             'Fecha Registro': r.fecha_registro ? new Date(r.fecha_registro).toLocaleString() : '',
             'Edad': r.edad,
             'Estado Origen': r.estado_origen,

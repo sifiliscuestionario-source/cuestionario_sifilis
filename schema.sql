@@ -1,16 +1,18 @@
 -- =========================================================================
 -- ESQUEMA DE BASE DE DATOS PARA SUPABASE
 -- Proyecto: Cuestionario de Conocimientos, Actitudes y Prácticas sobre Sífilis
--- Cuartel "Abelardo Mérida"
+-- Cuartel "Abelardo Mérida" (Anónimo con Firma Digital de Consentimiento)
 -- =========================================================================
 
--- 1. Crear tabla principal para almacenar todas las respuestas
 CREATE TABLE IF NOT EXISTS respuestas_sifilis (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     fecha_registro TIMESTAMPTZ DEFAULT NOW(),
     
-    -- Sección A: Datos sociodemográficos
-    nombre_participante TEXT,
+    -- Consentimiento Informado & Firma Digital
+    consentimiento_aceptado BOOLEAN DEFAULT TRUE,
+    firma_consentimiento TEXT, -- Firma en formato Base64 Data URL (imagen PNG)
+    
+    -- Sección A: Datos sociodemográficos (Anónimos)
     edad INTEGER,
     estado_origen TEXT,
     sexo TEXT,
@@ -26,16 +28,16 @@ CREATE TABLE IF NOT EXISTS respuestas_sifilis (
     b1_escuchado_sifilis TEXT,
     b1_donde_escucho TEXT,
     b2_que_es_sifilis TEXT,
-    b3_transmision_opciones JSONB, -- Array de opciones seleccionadas
+    b3_transmision_opciones JSONB,
     b4_transmite_solo_anal_vaginal TEXT,
     b5_causada_por TEXT,
     b6_nombre_microorganismo TEXT,
     b6_como_se_llama TEXT,
-    b7_sintomas_sifilis JSONB, -- Array de síntomas seleccionados
-    b8_tratamiento_sifilis JSONB, -- Array de tratamientos marcados
-    b9_factores_riesgo JSONB, -- Array de factores marcados
-    b10_contagio_its_general JSONB, -- Array de vías de contagio
-    b11_complicaciones_sifilis JSONB, -- Array de complicaciones
+    b7_sintomas_sifilis JSONB,
+    b8_tratamiento_sifilis JSONB,
+    b9_factores_riesgo JSONB,
+    b10_contagio_its_general JSONB,
+    b11_complicaciones_sifilis JSONB,
     b12_pildoras_anticonceptivas TEXT,
     b13_uso_condon_efectividad TEXT,
     b14_probabilidad_sin_condon TEXT,
@@ -73,26 +75,22 @@ CREATE TABLE IF NOT EXISTS respuestas_sifilis (
     d10_asistido_conversatorios_its TEXT,
     d11_conoce_donde_pruebas_rapidas TEXT,
     
-    -- Metadata adicional
-    origen_dispositivo TEXT DEFAULT 'Web'
+    origen_dispositivo TEXT DEFAULT 'Web/Mobile'
 );
 
--- 2. Habilitar RLS (Row Level Security)
+-- Políticas RLS
 ALTER TABLE respuestas_sifilis ENABLE ROW LEVEL SECURITY;
 
--- 3. Crear Política para permitir inserciones públicas (Anon)
 CREATE POLICY "Permitir inserción pública de respuestas" 
 ON respuestas_sifilis 
 FOR INSERT 
 WITH CHECK (true);
 
--- 4. Crear Política para permitir lectura pública (o mediante Service Key)
 CREATE POLICY "Permitir lectura de respuestas" 
 ON respuestas_sifilis 
 FOR SELECT 
 USING (true);
 
--- 5. Crear Política para permitir eliminación de respuestas
 CREATE POLICY "Permitir eliminacion de respuestas" 
 ON respuestas_sifilis 
 FOR DELETE 

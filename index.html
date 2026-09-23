@@ -60,10 +60,10 @@
                 <div class="gforms-top-card-content">
                     <h2>Conocimientos, Actitudes y Prácticas sobre la Sífilis</h2>
                     <p style="margin-bottom: 0.75rem;">
-                        Evaluación para soldados del Cuartel <strong>"Abelardo Mérida"</strong>. La información es confidencial y utilizada con fines académicos.
+                        Evaluación en soldados del Cuartel <strong>"Abelardo Mérida"</strong>. La participación es voluntaria, confidencial y anónima.
                     </p>
                     <div style="font-size: 0.8rem; color: var(--primary); font-weight: 600; display: flex; align-items: center; gap: 0.4rem;">
-                        <i class="fas fa-circle-info"></i> Complete todos los datos solicitados a continuación.
+                        <i class="fas fa-user-shield"></i> Cuestionario 100% Anónimo con Firma Digital de Consentimiento.
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
             <div class="stepper-card">
                 <div class="progress-header">
                     <span class="progress-title"><i class="fas fa-list-check"></i> Progreso</span>
-                    <span class="progress-pct" id="progress-pct-text">25% Completado</span>
+                    <span class="progress-pct" id="progress-pct-text">20% Completado</span>
                 </div>
                 <div class="progress-bar-track">
                     <div class="progress-bar-fill" id="progress-fill"></div>
@@ -97,7 +97,7 @@
                         </button>
                         
                         <button type="button" class="btn btn-primary" id="btn-next-step">
-                            Siguiente <i class="fas fa-arrow-right"></i>
+                            Aceptar y Comenzar <i class="fas fa-arrow-right"></i>
                         </button>
 
                         <button type="button" class="btn btn-success btn-lg" id="btn-submit-survey" style="display: none;">
@@ -176,9 +176,8 @@
                 </div>
             </div>
 
-            <!-- Gráficas Estadísticas (Pie/Donut y Barras) -->
+            <!-- Gráficas Estadísticas -->
             <div class="charts-grid">
-                
                 <div class="chart-card">
                     <div class="chart-card-header">
                         <h3 class="chart-card-title"><i class="fas fa-chart-pie" style="color: var(--primary);"></i> Distribución por Sexo</h3>
@@ -223,17 +222,16 @@
                         <canvas id="chart-actitudes"></canvas>
                     </div>
                 </div>
-
             </div>
 
             <!-- Tabla de Datos General -->
             <div class="table-card">
                 <div class="table-controls" style="margin-bottom: 1rem;">
                     <h3 style="font-size: 1rem; font-weight: 700; color: var(--navy);">
-                        <i class="fas fa-table"></i> Registros por Nombre
+                        <i class="fas fa-table"></i> Registros de Encuestas
                     </h3>
                     <div style="width: 100%; margin-top: 0.5rem;">
-                        <input type="text" id="table-search-input" class="form-control" placeholder="🔍 Buscar por nombre o unidad..." />
+                        <input type="text" id="table-search-input" class="form-control" placeholder="🔍 Buscar por unidad o estado..." />
                     </div>
                 </div>
 
@@ -242,7 +240,7 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Nombre Participante</th>
+                                <th>Participante</th>
                                 <th>Fecha</th>
                                 <th>Edad</th>
                                 <th>Sexo</th>

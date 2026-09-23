@@ -1,5 +1,5 @@
 /**
- * Estructura de Datos Oficial del Cuestionario
+ * Estructura de Datos Oficial del Cuestionario (Anónimo)
  * "Conocimientos, actitudes y prácticas sobre la sífilis en soldados del Cuartel Abelardo Mérida"
  */
 
@@ -7,22 +7,22 @@ const SURVEY_DATA = {
     title: "Conocimientos, actitudes y prácticas sobre la sífilis en soldados del Cuartel Abelardo Mérida",
     estimatedTime: "20 min (15 min participante)",
     modality: "Entrevistador / Autoadministrado",
-    resumen: "Este instrumento tiene la finalidad de evaluar los conocimientos, actitudes y prácticas sobre la sífilis en soldados del cuartel \"Abelardo Mérida\". La información proporcionada será totalmente anónima y confidencial. La participación es voluntaria y los datos se recolectan con fines académicos.",
+    resumen: "Este instrumento tiene la finalidad de evaluar los conocimientos, actitudes y prácticas sobre la sífilis en soldados del cuartel \"Abelardo Mérida\". La información proporcionada será totalmente anónima y confidencial. La participación es totalmente voluntaria y se recolecta con fines académicos.",
+    consentText: "Estimado(a) participante: le invitamos a participar en el estudio titulado: CONOCIMIENTO, ACTITUDES Y PRÁCTICAS SOBRE LA SÍFILIS EN SOLDADOS DEL CUARTEL \"ABELARDO MÉRIDA\". La información proporcionada por usted será totalmente anónima y confidencial. La participación es totalmente voluntaria y puede interrumpirla en cualquier momento que usted considere. La información que se recoja será usada sólo con fines académicos. El cuestionario toma aproximadamente: 15 min.",
     sections: [
+        {
+            id: "sec_consent",
+            code: "Consentimiento",
+            title: "Consentimiento Informado",
+            description: "Lea atenta y completamente la información antes de continuar.",
+            isConsentStep: true
+        },
         {
             id: "sec_a",
             code: "A",
             title: "Datos Sociodemográficos",
-            description: "Información general del participante para fines de identificación y estadísticos.",
+            description: "Información general del participante para fines estadísticos (Anónimo).",
             questions: [
-                {
-                    id: "a0_nombre_participante",
-                    number: "0",
-                    label: "Nombre y Apellido del Participante / Soldado",
-                    type: "text",
-                    placeholder: "Ej: Juan Pérez / Soldado 1er Año...",
-                    required: true
-                },
                 {
                     id: "a1_edad",
                     number: "1",
@@ -150,7 +150,7 @@ const SURVEY_DATA = {
                     number: "4",
                     label: "¿La sífilis se transmite solo por sexo anal y/o vaginal?",
                     type: "text",
-                    placeholder: "Responda o explique brevemente (Ej: No, también por sexo oral o transmisión materna...)",
+                    placeholder: "Responda o explique brevemente...",
                     required: true
                 },
                 {
@@ -168,7 +168,7 @@ const SURVEY_DATA = {
                 {
                     id: "b6_nombre_microorganismo",
                     number: "6",
-                    label: "¿Sabe cómo se llama el微生物 (microorganismo) que causa la sífilis?",
+                    label: "¿Sabe cómo se llama el microorganismo que causa la sífilis?",
                     type: "radio_with_followup",
                     options: [
                         { label: "SÍ", value: "SI" },
@@ -199,7 +199,7 @@ const SURVEY_DATA = {
                 {
                     id: "b8_tratamiento_sifilis",
                     number: "8",
-                    label: "¿Conoce usted de tratamiento para la sífilis? (Marque las opciones que considere correctas)",
+                    label: "¿Conoce usted de tratamiento para la sífilis?",
                     type: "checkbox_group",
                     options: [
                         { label: "Antibióticos inyectables, como la penicilina", value: "Penicilina / Antibióticos inyectables" },
@@ -269,7 +269,7 @@ const SURVEY_DATA = {
                     type: "radio",
                     options: [
                         { label: "El uso correcto del condón elimina por completo (al 100%) el riesgo de contraer sífilis en cualquier tipo de relación sexual", value: "Elimina 100% el riesgo" },
-                        { label: "El uso correcto del condón reduce enormemente el riesgo, pero no lo elimina por completo, ya que el microorganismo se transmite por contacto con las llagas en zonas no cubiertas (pubis, base genital, boca)", value: "Reduce riesgo pero no elimina por completo" },
+                        { label: "El uso correcto del condón reduce enormemente el riesgo, pero no lo elimina por completo, ya que el microorganismo se transmite por contacto con las llagas en zonas no cubiertas", value: "Reduce riesgo pero no elimina por completo" },
                         { label: "El preservativo protege contra HIV y embarazo, pero no ofrece protección contra la sífilis", value: "Protege HIV pero no sífilis" },
                         { label: "Desconozco si el uso del condón elimina o no el riesgo de contraer esta enfermedad", value: "Desconozco" }
                     ],
@@ -282,7 +282,7 @@ const SURVEY_DATA = {
                     type: "radio",
                     options: [
                         { label: "La probabilidad de contraer sífilis aumenta drásticamente, ya que la falta del condón permite el contacto directo con fluidos o lesiones", value: "Aumenta drásticamente" },
-                        { label: "La probabilidad se mantiene igual, ya que el contagio depende de la suerte y de la higiene personal después del acto sexual", value: "Se mantiene igual" },
+                        { label: "La probabilidad se mantiene igual, ya que el contagio depende de la suerte y de la higiene personal", value: "Se mantiene igual" },
                         { label: "La probabilidad no cambia, porque la sífilis solo se transmite si hay grandes lesiones en los genitales", value: "No cambia" },
                         { label: "Desconozco si no usar preservativos altera o no la probabilidad", value: "Desconozco" }
                     ],
@@ -291,11 +291,11 @@ const SURVEY_DATA = {
                 {
                     id: "b15_simple_vista",
                     number: "15",
-                    label: "¿Puede saber a simple vista quién tiene sífilis? (Marque una sola opción):",
+                    label: "¿Puede saber a simple vista quién tiene sífilis?",
                     type: "radio",
                     options: [
                         { label: "Sí, una persona con sífilis siempre se ve demacrado, con mala higiene y tiene llagas visibles en la cara", value: "Sí, siempre se ve demacrado con llagas en cara" },
-                        { label: "No, muchas personas con sífilis no presentan ningún síntoma visible o sus llagas están ocultas en zonas genitales e internas, por lo que pueden lucir sanas", value: "No, pueden asintomáticos o llagas ocultas" },
+                        { label: "No, muchas personas con sífilis no presentan ningún síntoma visible o sus llagas están ocultas en zonas genitales e internas", value: "No, pueden asintomáticos o llagas ocultas" },
                         { label: "Desconozco si se puede o no identificar a simple vista una persona infectada", value: "Desconozco" }
                     ],
                     required: true
@@ -306,7 +306,7 @@ const SURVEY_DATA = {
                     label: "¿Cómo afecta el riesgo de contraer sífilis al tener mayor número de parejas sexuales?",
                     type: "radio",
                     options: [
-                        { label: "Aumenta significativamente, porque la exposición a tener sexo con una persona con enfermedad activa (con o sin síntomas) aumenta", value: "Aumenta significativamente" },
+                        { label: "Aumenta significativamente, porque la exposición a tener sexo con una persona con enfermedad activa aumenta", value: "Aumenta significativamente" },
                         { label: "El riesgo no aumenta por el número de parejas, la probabilidad de contagio es siempre la misma", value: "No aumenta por número de parejas" },
                         { label: "El riesgo es menor si las parejas pertenecen al mismo entorno conocido", value: "Es menor si es el mismo entorno" },
                         { label: "Desconozco si el número de parejas sexuales aumenta o no el riesgo", value: "Desconozco" }

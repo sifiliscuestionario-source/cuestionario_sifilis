@@ -1,0 +1,733 @@
+/* ==========================================================================
+   ESTILOS GENERALES Y MOBILE-FIRST (ESTILO GOOGLE FORMS INTERACTIVO)
+   Cuestionario y Módulo Administrativo - Cuartel "Abelardo Mérida"
+   ========================================================================== */
+
+:root {
+    --gform-purple: #673ab7;
+    --gform-purple-dark: #512da8;
+    --gform-purple-light: #f3e5f5;
+    
+    --primary: #0d9488;
+    --primary-hover: #0f766e;
+    --primary-light: #ccfbf1;
+    --primary-subtle: #f0fdf4;
+    
+    --navy: #0f172a;
+    --navy-light: #1e293b;
+    --accent: #2563eb;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --success: #10b981;
+    
+    --bg-page: #f0f3f6;
+    --surface: #ffffff;
+    --surface-alt: #f8fafc;
+    --border: #dadce0;
+    --border-hover: #bdc1c6;
+    
+    --text-main: #202124;
+    --text-muted: #5f6368;
+    --text-light: #80868b;
+    
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    
+    --shadow-sm: 0 1px 3px 0 rgba(60, 64, 67, 0.15), 0 1px 2px 0 rgba(60, 64, 67, 0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 20px -5px rgba(0, 0, 0, 0.12);
+    
+    --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Base resets */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 70px; /* Space for mobile bottom nav bar */
+}
+
+/* App Header (Estilo Google Forms Top Banner) */
+.app-header {
+    background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%);
+    color: #ffffff;
+    padding: 1rem 1.25rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+}
+
+.header-container {
+    max-width: 768px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.brand-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.brand-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    backdrop-filter: blur(4px);
+}
+
+.brand-text h1 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.2;
+}
+
+.brand-text p {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Buttons Touch Optimized */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 24px; /* Google Pills style */
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: var(--transition);
+    user-select: none;
+    touch-action: manipulation;
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+    box-shadow: 0 2px 6px rgba(13, 148, 136, 0.3);
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: var(--primary-hover);
+}
+
+.btn-outline-light {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.btn-outline-primary {
+    background-color: transparent;
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-secondary {
+    background-color: #e2e8f0;
+    color: var(--navy);
+}
+
+.btn-success {
+    background-color: var(--success);
+    color: white;
+}
+
+.btn-sm {
+    min-height: 36px;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.8rem;
+    border-radius: 18px;
+}
+
+.btn-lg {
+    min-height: 50px;
+    padding: 0.75rem 1.75rem;
+    font-size: 1rem;
+}
+
+/* Main Layout Wrapper */
+.main-wrapper {
+    flex: 1;
+    max-width: 768px; /* Mobile / Tablet optimized width like Google Forms */
+    width: 100%;
+    margin: 0 auto;
+    padding: 1.25rem 1rem;
+}
+
+.view-section {
+    display: none;
+}
+
+.view-section.active {
+    display: block;
+    animation: slideUp 0.25s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Top Banner Google Forms Card */
+.gforms-top-card {
+    background: #ffffff;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.gforms-top-card::before {
+    content: '';
+    display: block;
+    height: 10px;
+    background: linear-gradient(90deg, #0d9488 0%, #14b8a6 100%);
+}
+
+.gforms-top-card-content {
+    padding: 1.25rem 1.25rem 1rem;
+}
+
+.gforms-top-card h2 {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 0.5rem;
+}
+
+.gforms-top-card p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+/* Mobile Stepper / Progress Bar Sticky */
+.stepper-card {
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.progress-title {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--navy);
+}
+
+.progress-pct {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--primary);
+}
+
+.progress-bar-track {
+    width: 100%;
+    height: 8px;
+    background-color: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary) 0%, #14b8a6 100%);
+    border-radius: 999px;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.steps-indicator {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+}
+
+.step-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 0.45rem 0.25rem;
+    border-radius: 20px;
+    background-color: var(--surface-alt);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+}
+
+.step-item.active {
+    background-color: var(--primary-light);
+    color: var(--primary-hover);
+    border: 1px solid rgba(13, 148, 136, 0.4);
+}
+
+.step-item.completed {
+    background-color: #f0fdf4;
+    color: var(--success);
+}
+
+/* Google Forms Question Cards */
+.question-block {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    position: relative;
+}
+
+.question-block:focus-within, .question-block:hover {
+    border-color: var(--primary);
+    box-shadow: 0 3px 8px rgba(13, 148, 136, 0.15);
+}
+
+.question-block.has-error {
+    border-color: var(--danger) !important;
+    background-color: #fff5f5;
+    border-left: 5px solid var(--danger) !important;
+}
+
+.question-label {
+    font-size: 0.975rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 0.85rem;
+    display: block;
+    line-height: 1.4;
+}
+
+.question-label .req-asterisk {
+    color: var(--danger);
+    margin-left: 0.25rem;
+    font-size: 1.1rem;
+}
+
+/* Touch Input Fields */
+.form-control {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem; /* 16px prevents iOS Safari zoom */
+    font-family: inherit;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    background-color: #ffffff;
+    color: var(--text-main);
+    transition: var(--transition);
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.2);
+}
+
+/* Google Forms Option Cards (Touch Friendly Radio & Checkboxes) */
+.options-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.option-card {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+    cursor: pointer;
+    transition: var(--transition);
+    user-select: none;
+}
+
+.option-card:active {
+    transform: scale(0.99);
+}
+
+.option-card:hover {
+    background-color: #f8fafc;
+    border-color: var(--primary);
+}
+
+.option-card.selected {
+    background-color: var(--primary-subtle);
+    border-color: var(--primary);
+    box-shadow: 0 2px 4px rgba(13, 148, 136, 0.12);
+}
+
+.option-card input[type="radio"],
+.option-card input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+    accent-color: var(--primary);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.option-text {
+    font-size: 0.925rem;
+    font-weight: 500;
+    color: var(--text-main);
+    line-height: 1.3;
+}
+
+/* Likert Touch Scale Buttons */
+.likert-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+}
+
+.likert-btn-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    min-height: 60px;
+    padding: 0.5rem 0.25rem;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: center;
+}
+
+.likert-btn-option.selected {
+    border-color: var(--primary);
+    background-color: var(--primary);
+    color: white;
+}
+
+.likert-val {
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.likert-lbl {
+    font-size: 0.65rem;
+    font-weight: 600;
+    line-height: 1.1;
+}
+
+.likert-btn-option.selected .likert-lbl {
+    color: white;
+}
+
+/* Sticky Bottom Navigation Bar for Mobile */
+.survey-actions {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    border-top: 1px solid var(--border);
+    padding: 0.75rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 90;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
+}
+
+.survey-actions .btn {
+    flex: 1;
+    max-width: 48%;
+}
+
+/* Modals */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+    padding: 1rem;
+}
+
+.modal-overlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 480px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-lg);
+    transform: scale(0.92);
+    transition: var(--transition);
+}
+
+.modal-overlay.open .modal-card {
+    transform: scale(1);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.modal-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--navy);
+}
+
+/* Admin View Styles */
+.admin-header-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.admin-title-group h2 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--navy);
+}
+
+.admin-actions-bar {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.metric-card {
+    background: white;
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.metric-icon-box {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.metric-icon-teal { background: #ccfbf1; color: #0d9488; }
+.metric-icon-blue { background: #dbeafe; color: #2563eb; }
+.metric-icon-emerald { background: #d1fae5; color: #059669; }
+.metric-icon-amber { background: #fef3c7; color: #d97706; }
+
+.metric-data .val {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.1;
+}
+
+.metric-data .lbl {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.chart-card {
+    background: white;
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+}
+
+.chart-container {
+    position: relative;
+    height: 250px;
+    width: 100%;
+}
+
+.table-card {
+    background: white;
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 2rem;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    max-height: 450px;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.825rem;
+}
+
+.data-table th, .data-table td {
+    padding: 0.75rem 0.6rem;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+}
+
+.data-table th {
+    background-color: var(--surface-alt);
+    color: var(--navy);
+    font-weight: 700;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.detail-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.detail-section-title {
+    font-weight: 700;
+    color: var(--primary);
+    border-bottom: 1.5px solid var(--primary-light);
+    padding-bottom: 0.25rem;
+    margin-top: 0.75rem;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    padding: 0.25rem 0;
+    border-bottom: 1px dashed var(--border);
+}
+
+.detail-item .lbl {
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.detail-item .val {
+    font-weight: 700;
+    color: var(--navy);
+}
+
+.app-footer {
+    text-align: center;
+    padding: 1rem;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    border-top: 1px solid var(--border);
+    background: white;
+    margin-top: auto;
+}
+
+/* Matrix Table for B22 */
+.matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.matrix-table th, .matrix-table td {
+    padding: 0.6rem 0.35rem;
+    border: 1px solid var(--border);
+    text-align: center;
+}
+
+.matrix-table th {
+    background-color: var(--surface-alt);
+    font-weight: 700;
+}

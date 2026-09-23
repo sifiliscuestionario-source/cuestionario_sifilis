@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Encuesta Sífilis - Cuartel Abelardo Mérida</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- App CSS Mobile First -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- CDNs: Supabase, Chart.js, SheetJS XLSX -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+
+    <!-- Header / Navbar Principal Mobile Style -->
+    <header class="app-header">
+        <div class="header-container">
+            <div class="brand-info">
+                <div class="brand-icon">
+                    <i class="fas fa-notes-medical"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>Cuestionario Sífilis</h1>
+                    <p>Cuartel Abelardo Mérida</p>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-outline-light btn-sm" onclick="adminModule.showQuestionnaireView()" title="Volver a Encuesta">
+                    <i class="fas fa-pen-to-square"></i>
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="adminModule.promptLogin()" title="Módulo Administrativo">
+                    <i class="fas fa-chart-pie"></i> Admin
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-wrapper">
+
+        <!-- ===================================================================
+             VISTA 1: CUESTIONARIO PARTICIPANTE / ENTREVISTADOR (ESTILO GOOGLE FORMS)
+             =================================================================== -->
+        <section id="view-questionnaire" class="view-section active">
+
+            <!-- Card Superior Estilo Google Forms Top Banner -->
+            <div class="gforms-top-card">
+                <div class="gforms-top-card-content">
+                    <h2>Conocimientos, Actitudes y Prácticas sobre la Sífilis</h2>
+                    <p style="margin-bottom: 0.75rem;">
+                        Evaluación para soldados del Cuartel <strong>"Abelardo Mérida"</strong>. La información es confidencial y utilizada con fines académicos.
+                    </p>
+                    <div style="font-size: 0.8rem; color: var(--primary); font-weight: 600; display: flex; align-items: center; gap: 0.4rem;">
+                        <i class="fas fa-circle-info"></i> Complete todos los datos solicitados a continuación.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stepper / Barra de Progreso Sticky -->
+            <div class="stepper-card">
+                <div class="progress-header">
+                    <span class="progress-title"><i class="fas fa-list-check"></i> Progreso</span>
+                    <span class="progress-pct" id="progress-pct-text">25% Completado</span>
+                </div>
+                <div class="progress-bar-track">
+                    <div class="progress-bar-fill" id="progress-fill"></div>
+                </div>
+
+                <div class="steps-indicator" id="steps-indicator">
+                    <!-- Se genera dinámicamente -->
+                </div>
+            </div>
+
+            <!-- Contenedor del Formulario Pregunta por Pregunta -->
+            <div class="survey-card">
+                <form id="survey-form" onsubmit="return false;">
+                    <div id="survey-form-container">
+                        <!-- Se renderizan las preguntas según el paso activo -->
+                    </div>
+
+                    <!-- Botones de Navegación Fijos en Móvil -->
+                    <div class="survey-actions">
+                        <button type="button" class="btn btn-secondary" id="btn-prev-step" style="display: none;">
+                            <i class="fas fa-arrow-left"></i> Anterior
+                        </button>
+                        
+                        <button type="button" class="btn btn-primary" id="btn-next-step">
+                            Siguiente <i class="fas fa-arrow-right"></i>
+                        </button>
+
+                        <button type="button" class="btn btn-success btn-lg" id="btn-submit-survey" style="display: none;">
+                            <i class="fas fa-paper-plane"></i> Enviar Encuesta
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+
+        <!-- ===================================================================
+             VISTA 2: MÓDULO ADMINISTRATIVO & ESTADÍSTICO (PROTEGIDO)
+             =================================================================== -->
+        <section id="view-admin" class="view-section">
+            
+            <div class="admin-header-bar">
+                <div class="admin-title-group">
+                    <h2><i class="fas fa-chart-line" style="color: var(--primary);"></i> Estadísticas & Datos</h2>
+                    <p>Consolidado de encuestas registradas, gráficas de tabla y torta, y exportación en Excel/PDF.</p>
+                </div>
+
+                <div class="admin-actions-bar">
+                    <button class="btn btn-outline-primary btn-sm" id="btn-config-supabase">
+                        <i class="fas fa-database"></i> Supabase
+                    </button>
+                    <button class="btn btn-success btn-sm" id="btn-export-excel">
+                        <i class="fas fa-file-excel"></i> Excel (.xlsx)
+                    </button>
+                    <button class="btn btn-secondary btn-sm" id="btn-export-pdf">
+                        <i class="fas fa-file-pdf"></i> PDF
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tarjetas de Métricas Rápidas -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon-box metric-icon-teal">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="metric-data">
+                        <div class="val" id="metric-total-count">0</div>
+                        <div class="lbl">Total Encuestas</div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon-box metric-icon-blue">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="metric-data">
+                        <div class="val" id="metric-avg-age">0</div>
+                        <div class="lbl">Prom. Edad</div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon-box metric-icon-emerald">
+                        <i class="fas fa-bacteria"></i>
+                    </div>
+                    <div class="metric-data">
+                        <div class="val" id="metric-pct-bacteria">0%</div>
+                        <div class="lbl">Saben Causa</div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon-box metric-icon-amber">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="metric-data">
+                        <div class="val" id="metric-pct-condom">0%</div>
+                        <div class="lbl">Usan Condón</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráficas Estadísticas (Pie/Donut y Barras) -->
+            <div class="charts-grid">
+                
+                <div class="chart-card">
+                    <div class="chart-card-header">
+                        <h3 class="chart-card-title"><i class="fas fa-chart-pie" style="color: var(--primary);"></i> Distribución por Sexo</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-sexo"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-card-header">
+                        <h3 class="chart-card-title"><i class="fas fa-chart-pie" style="color: var(--accent);"></i> Microorganismo Causante</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-causa"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-card-header">
+                        <h3 class="chart-card-title"><i class="fas fa-chart-pie" style="color: var(--warning);"></i> Frecuencia Uso de Condón</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-condom"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-card-header">
+                        <h3 class="chart-card-title"><i class="fas fa-chart-bar" style="color: var(--primary);"></i> Síntomas Reconocidos</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-sintomas"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-card-header">
+                        <h3 class="chart-card-title"><i class="fas fa-sliders-h" style="color: var(--accent);"></i> Promedio Escala de Actitudes (1-5)</h3>
+                    </div>
+                    <div class="chart-container" style="height: 300px;">
+                        <canvas id="chart-actitudes"></canvas>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Tabla de Datos General -->
+            <div class="table-card">
+                <div class="table-controls" style="margin-bottom: 1rem;">
+                    <h3 style="font-size: 1rem; font-weight: 700; color: var(--navy);">
+                        <i class="fas fa-table"></i> Registros por Nombre
+                    </h3>
+                    <div style="width: 100%; margin-top: 0.5rem;">
+                        <input type="text" id="table-search-input" class="form-control" placeholder="🔍 Buscar por nombre o unidad..." />
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre Participante</th>
+                                <th>Fecha</th>
+                                <th>Edad</th>
+                                <th>Sexo</th>
+                                <th>Unidad</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="data-table-body">
+                            <!-- Se renderiza dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <p>© 2026 Estudio KAP Sífilis - Soldados del Cuartel "Abelardo Mérida".</p>
+    </footer>
+
+
+    <!-- ===================================================================
+         MODALES
+         =================================================================== -->
+
+    <!-- Modal Autenticación Módulo Admin -->
+    <div class="modal-overlay" id="auth-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-lock" style="color: var(--primary);"></i> Acceso Privado</h3>
+                <button class="btn btn-sm btn-outline-light" onclick="document.getElementById('auth-modal').classList.remove('open')" style="color: #64748b;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+                Ingrese la contraseña de seguridad para visualizar el módulo de estadísticas y exportación de datos.
+            </p>
+
+            <div style="margin-bottom: 1rem;">
+                <label class="question-label">Contraseña:</label>
+                <input type="password" id="admin-password-input" class="form-control" placeholder="Ingrese contraseña..." />
+                <p id="auth-error-msg" style="color: var(--danger); font-size: 0.8rem; margin-top: 0.35rem; display: none;"></p>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1.25rem;">
+                <button class="btn btn-secondary" onclick="document.getElementById('auth-modal').classList.remove('open')">Cancelar</button>
+                <button class="btn btn-primary" id="btn-admin-login">Ingresar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Ver Detalle de Respuesta -->
+    <div class="modal-overlay" id="detail-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-file-alt" style="color: var(--primary);"></i> Detalle de Encuesta</h3>
+                <button class="btn btn-sm btn-outline-light" onclick="document.getElementById('detail-modal').classList.remove('open')" style="color: #64748b;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="detail-modal-body">
+                <!-- Se inyecta dinámicamente -->
+            </div>
+            <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
+                <button class="btn btn-secondary" onclick="document.getElementById('detail-modal').classList.remove('open')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Configuración Supabase -->
+    <div class="modal-overlay" id="supabase-config-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-database" style="color: var(--primary);"></i> Conexión Supabase</h3>
+                <button class="btn btn-sm btn-outline-light" onclick="document.getElementById('supabase-config-modal').classList.remove('open')" style="color: #64748b;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+                Ingrese la URL y Anon API Key de su proyecto en Supabase.
+            </p>
+
+            <div style="margin-bottom: 1rem;">
+                <label class="question-label">Supabase Project URL:</label>
+                <input type="text" id="supabase-url-input" class="form-control" placeholder="https://xyz.supabase.co" />
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+                <label class="question-label">Supabase Anon Key:</label>
+                <input type="password" id="supabase-key-input" class="form-control" placeholder="eyJh..." />
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1.25rem;">
+                <button class="btn btn-secondary" onclick="document.getElementById('supabase-config-modal').classList.remove('open')">Cancelar</button>
+                <button class="btn btn-primary" id="btn-save-supabase-config">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Encuesta Enviada Con Éxito -->
+    <div class="modal-overlay" id="success-modal">
+        <div class="modal-card" style="text-align: center;">
+            <div style="width: 56px; height: 56px; background: #d1fae5; color: #059669; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.75rem;">
+                <i class="fas fa-check"></i>
+            </div>
+            <h3 class="modal-title" style="margin-bottom: 0.5rem;">¡Encuesta Guardada!</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+                La información ha sido registrada exitosamente.
+            </p>
+
+            <div style="display: flex; justify-content: center; gap: 0.5rem;">
+                <button class="btn btn-outline-primary" onclick="document.getElementById('success-modal').classList.remove('open')">
+                    <i class="fas fa-plus"></i> Otra Encuesta
+                </button>
+                <button class="btn btn-primary" onclick="document.getElementById('success-modal').classList.remove('open'); adminModule.promptLogin();">
+                    <i class="fas fa-chart-pie"></i> Ver Admin
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts de la Aplicación -->
+    <script src="js/questions-data.js"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

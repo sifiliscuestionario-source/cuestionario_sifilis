@@ -24,7 +24,7 @@ const SURVEY_DATA = {
             description: "Información general del participante para fines estadísticos (Anónimo).",
             questions: [
                 {
-                    id: "a1_edad",
+                    id: "edad",
                     number: "1",
                     label: "Edad (años)",
                     type: "number",
@@ -34,7 +34,7 @@ const SURVEY_DATA = {
                     max: 80
                 },
                 {
-                    id: "a1_estado_origen",
+                    id: "estado_origen",
                     number: "1b",
                     label: "Estado de origen",
                     type: "text",
@@ -42,19 +42,19 @@ const SURVEY_DATA = {
                     required: true
                 },
                 {
-                    id: "a2_sexo",
+                    id: "sexo",
                     number: "2",
                     label: "Sexo",
                     type: "radio",
                     options: [
                         { label: "Masculino", value: "Masculino" },
                         { label: "Femenino", value: "Femenino" },
-                        { label: "Otro", value: "Otro", hasSpecify: true, specifyId: "a2_sexo_otro" }
+                        { label: "Otro", value: "Otro", hasSpecify: true, specifyId: "sexo_otro" }
                     ],
                     required: true
                 },
                 {
-                    id: "a3_estado_civil",
+                    id: "estado_civil",
                     number: "3",
                     label: "Estado civil",
                     type: "radio",
@@ -62,12 +62,12 @@ const SURVEY_DATA = {
                         { label: "Soltero", value: "Soltero" },
                         { label: "Casado", value: "Casado" },
                         { label: "Unión libre", value: "Unión libre" },
-                        { label: "Otro", value: "Otro", hasSpecify: true, specifyId: "a3_estado_civil_otro" }
+                        { label: "Otro", value: "Otro", hasSpecify: true, specifyId: "estado_civil_otro" }
                     ],
                     required: true
                 },
                 {
-                    id: "a4_grado_academico",
+                    id: "grado_academico",
                     number: "4",
                     label: "Grado académico",
                     type: "radio",
@@ -80,7 +80,7 @@ const SURVEY_DATA = {
                     required: true
                 },
                 {
-                    id: "a5_unidad_dependencia",
+                    id: "unidad_dependencia",
                     number: "5",
                     label: "Unidad / Dependencia militar",
                     type: "text",
@@ -88,12 +88,12 @@ const SURVEY_DATA = {
                     required: true
                 },
                 {
-                    id: "a6_tiempo_servicio_valor",
+                    id: "tiempo_servicio_valor",
                     number: "6",
                     label: "Tiempo de servicio en las F.A.B",
                     type: "number_unit",
                     placeholder: "Ej: 18",
-                    unitId: "a6_tiempo_servicio_unidad",
+                    unitId: "tiempo_servicio_unidad",
                     unitOptions: [
                         { label: "Meses", value: "Meses" },
                         { label: "Años", value: "Años" }

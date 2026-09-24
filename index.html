@@ -38,7 +38,7 @@
 
             <div class="nav-buttons">
                 <button class="btn btn-outline-light btn-sm" onclick="adminModule.showQuestionnaireView()" title="Volver a Encuesta">
-                    <i class="fas fa-pen-to-square"></i>
+                    <i class="fas fa-pen-to-square"></i> Encuesta
                 </button>
                 <button class="btn btn-primary btn-sm" onclick="adminModule.promptLogin()" title="Módulo Administrativo">
                     <i class="fas fa-chart-pie"></i> Admin
@@ -116,7 +116,12 @@
             
             <div class="admin-header-bar">
                 <div class="admin-title-group">
-                    <h2><i class="fas fa-chart-line" style="color: var(--primary);"></i> Estadísticas & Datos</h2>
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <h2><i class="fas fa-chart-line" style="color: var(--primary);"></i> Estadísticas & Datos</h2>
+                        <span id="supabase-status-badge" class="status-badge status-local">
+                            <i class="fas fa-circle" style="color: #f59e0b; font-size: 0.6rem;"></i> Modo Local
+                        </span>
+                    </div>
                     <p>Consolidado de encuestas registradas, gráficas de tabla y torta, y exportación en Excel/PDF.</p>
                 </div>
 
@@ -317,13 +322,13 @@
     <div class="modal-overlay" id="supabase-config-modal">
         <div class="modal-card">
             <div class="modal-header">
-                <h3 class="modal-title"><i class="fas fa-database" style="color: var(--primary);"></i> Conexión Supabase</h3>
+                <h3 class="modal-title"><i class="fas fa-database" style="color: var(--primary);"></i> Configuración de Supabase</h3>
                 <button class="btn btn-sm btn-outline-light" onclick="document.getElementById('supabase-config-modal').classList.remove('open')" style="color: #64748b;">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
-                Ingrese la URL y Anon API Key de su proyecto en Supabase.
+                Ingrese la URL y Anon API Key de su proyecto en Supabase para vincular el almacenamiento remoto.
             </p>
 
             <div style="margin-bottom: 1rem;">
@@ -336,9 +341,16 @@
                 <input type="password" id="supabase-key-input" class="form-control" placeholder="eyJh..." />
             </div>
 
-            <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1.25rem;">
-                <button class="btn btn-secondary" onclick="document.getElementById('supabase-config-modal').classList.remove('open')">Cancelar</button>
-                <button class="btn btn-primary" id="btn-save-supabase-config">Guardar</button>
+            <div id="supabase-test-result" class="test-result-box" style="display: none; margin-bottom: 1rem; font-size: 0.85rem; padding: 0.75rem; border-radius: 8px;"></div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.25rem;">
+                <button class="btn btn-outline-primary btn-sm" id="btn-test-supabase-config">
+                    <i class="fas fa-plug"></i> Probar Conexión
+                </button>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="btn btn-secondary btn-sm" onclick="document.getElementById('supabase-config-modal').classList.remove('open')">Cancelar</button>
+                    <button class="btn btn-primary btn-sm" id="btn-save-supabase-config">Guardar</button>
+                </div>
             </div>
         </div>
     </div>

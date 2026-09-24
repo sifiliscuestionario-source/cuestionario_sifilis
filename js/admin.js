@@ -1,7 +1,7 @@
 /**
  * Módulo Administrativo & Estadístico
  * Control de acceso (Clave: "Sifilis2026"), Gráficas Chart.js, Tabla de datos,
- * Configuración Supabase y Exportación a PDF / Excel (.xlsx).
+ * Configuración Supabase con prueba de conexión y Exportación PDF/Excel (.xlsx).
  */
 
 class AdminModule {
@@ -15,6 +15,7 @@ class AdminModule {
 
     init() {
         this.bindEvents();
+        this.updateConnectionBadge();
     }
 
     bindEvents() {
@@ -24,6 +25,7 @@ class AdminModule {
         const exportPdfBtn = document.getElementById('btn-export-pdf');
         const configSupabaseBtn = document.getElementById('btn-config-supabase');
         const saveSupabaseBtn = document.getElementById('btn-save-supabase-config');
+        const testSupabaseBtn = document.getElementById('btn-test-supabase-config');
         const searchInput = document.getElementById('table-search-input');
 
         if (loginBtn) loginBtn.addEventListener('click', () => this.handleLogin());
@@ -35,7 +37,21 @@ class AdminModule {
         if (exportPdfBtn) exportPdfBtn.addEventListener('click', () => this.exportToPDF());
         if (configSupabaseBtn) configSupabaseBtn.addEventListener('click', () => this.openSupabaseConfigModal());
         if (saveSupabaseBtn) saveSupabaseBtn.addEventListener('click', () => this.saveSupabaseConfig());
+        if (testSupabaseBtn) testSupabaseBtn.addEventListener('click', () => this.testSupabaseConfig());
         if (searchInput) searchInput.addEventListener('input', (e) => this.filterTable(e.target.value));
+    }
+
+    updateConnectionBadge() {
+        const badge = document.getElementById('supabase-status-badge');
+        if (!badge) return;
+
+        if (window.supabaseService.isConfigured) {
+            badge.innerHTML = '<i class="fas fa-circle" style="color: #10b981; font-size: 0.6rem;"></i> Supabase Conectado';
+            badge.className = 'status-badge status-connected';
+        } else {
+            badge.innerHTML = '<i class="fas fa-circle" style="color: #f59e0b; font-size: 0.6rem;"></i> Modo Local';
+            badge.className = 'status-badge status-local';
+        }
     }
 
     promptLogin() {
@@ -75,6 +91,7 @@ class AdminModule {
         document.getElementById('view-questionnaire').classList.remove('active');
         document.getElementById('view-admin').classList.add('active');
 
+        this.updateConnectionBadge();
         this.responses = await window.supabaseService.getAllResponses();
         this.filteredResponses = [...this.responses];
 
@@ -211,7 +228,6 @@ class AdminModule {
 
         tbody.innerHTML = this.filteredResponses.map((r, i) => {
             const dateStr = r.fecha_registro ? new Date(r.fecha_registro).toLocaleString('es-VE') : 'N/A';
-            const hasSignature = !!r.firma_consentimiento;
             return `
                 <tr>
                     <td><strong>#${i + 1}</strong></td>
@@ -325,8 +341,41 @@ class AdminModule {
         document.getElementById('supabase-url-input').value = creds.url || '';
         document.getElementById('supabase-key-input').value = creds.key || '';
         
+        const testRes = document.getElementById('supabase-test-result');
+        if (testRes) testRes.style.display = 'none';
+
         const modal = document.getElementById('supabase-config-modal');
         if (modal) modal.classList.add('open');
+    }
+
+    async testSupabaseConfig() {
+        const url = document.getElementById('supabase-url-input').value.trim();
+        const key = document.getElementById('supabase-key-input').value.trim();
+        const testRes = document.getElementById('supabase-test-result');
+
+        if (!url || !key) {
+            if (testRes) {
+                testRes.style.display = 'block';
+                testRes.className = 'test-result-box test-error';
+                testRes.textContent = '❌ Ingrese la URL y la Anon Key de Supabase para realizar la prueba.';
+            }
+            return;
+        }
+
+        if (testRes) {
+            testRes.style.display = 'block';
+            testRes.className = 'test-result-box test-pending';
+            testRes.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Conectando y validando tabla...';
+        }
+
+        // Guardar temporalmente para probar
+        window.supabaseService.saveCredentials(url, key);
+        const res = await window.supabaseService.testConnection();
+
+        if (testRes) {
+            testRes.className = `test-result-box ${res.ok ? 'test-success' : 'test-error'}`;
+            testRes.textContent = res.message;
+        }
     }
 
     saveSupabaseConfig() {
@@ -340,12 +389,13 @@ class AdminModule {
                 document.getElementById('supabase-config-modal').classList.remove('open');
                 this.showAdminView();
             } else {
-                alert('Error al conectar con Supabase.');
+                alert('Error al guardar credenciales.');
             }
         } else {
             window.supabaseService.clearCredentials();
             alert('Credenciales removidas. Usando modo de almacenamiento local.');
             document.getElementById('supabase-config-modal').classList.remove('open');
+            this.showAdminView();
         }
     }
 
